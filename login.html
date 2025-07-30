@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-image: url('https://marketplace.canva.com/EAFw77ihYd8/1/0/800w/canva-beige-abstract-shapes-desktop-wallpaper-2FSHEmJo6ZQ.jpg');
+            background-size: cover; /* Ensure the image covers the full screen */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-attachment: fixed; /* Keep the background fixed during scrolling */
+            background-position: center center; /* Center the background image */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically but slightly above center */
+            padding-top: 20vh; /* Adjust this to move the container down or up */
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.269); /* Slightly more transparent white background */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px; /* Reduced width */
+            text-align: center;
+            margin: 0; /* Remove default margin */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9em; /* Slightly smaller font */
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-size: 0.9em; /* Slightly smaller font */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.9em; /* Slightly smaller font */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.8em; /* Even smaller error message */
+            margin-top: 10px;
+        }
+        h1 {
+            font-size: 1.5em; /* Smaller heading */
+            margin-bottom: 20px;
+        }
+        .forgot-password {
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        .forgot-password a {
+            color: #3474d4;
+            text-decoration: none;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button type="submit">Login</button>
+            <p id="loginError" class="error-message"></p>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

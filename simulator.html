@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator with Waterfall</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="waterfall.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>CPU Scheduling Simulator</h1>
+
+    <div class="waterfall-container">
+        <h2>Waterfall Model</h2>
+        <div class="animation-controls">
+            <button onclick="startAnimation('slow')">Slow</button>
+            <button onclick="startAnimation('fast')">Fast</button>
+        </div>
+        <ul class="waterfall-steps">
+            <li class="step active" id="requirements">
+                <span>1</span>
+                <p>Requirements Gathering</p>
+            </li>
+            <li class="step" id="design">
+                <span>2</span>
+                <p>System Design</p>
+            </li>
+            <li class="step" id="implementation">
+                <span>3</span>
+                <p>Implementation</p>
+            </li>
+            <li class="step" id="testing">
+                <span>4</span>
+                <p>Testing</p>
+            </li>
+            <li class="step" id="deployment">
+                <span>5</span>
+                <p>Deployment</p>
+            </li>
+            <li class="step" id="maintenance">
+                <span>6</span>
+                <p>Maintenance</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Enter Process Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Process ID</th>
+                    <th>Arrival Time</th>
+                    <th>Burst Time</th>
+                </tr>
+            </thead>
+            <tbody id="processTable"></tbody>
+        </table>
+        <button onclick="addProcess()">Add Process</button>
+
+        <h2>Select Scheduling Algorithm</h2>
+        <select id="schedulingAlgorithm">
+            <option value="FCFS">First-Come, First-Served (FCFS)</option>
+            <option value="SJF">Shortest Job First (SJF)</option>
+            <option value="SRTF">Shortest Remaining Time First (SRTF)</option>
+            <option value="RR">Round Robin (RR)</option>
+        </select>
+        <input type="number" id="timeQuantum" placeholder="Time Quantum (for RR)" style="display:none;">
+        <br>
+        <button onclick="calculateScheduling()">Calculate Scheduling</button>
+    </div>
+
+    <div class="output">
+        <h2>Scheduling Result</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Process ID</th>
+                    <th>Start Time</th>
+                    <th>Completion Time</th>
+                    <th>Turnaround Time</th>
+                    <th>Waiting Time</th>
+                </tr>
+            </thead>
+            <tbody id="resultTable"></tbody>
+        </table>
+        <p id="averages"></p>
+    </div>
+
+<button onclick="goToSolution()">View Step-by-Step Solution</button>
+
+    <div class="charts">
+        <div class="chart-container">
+            <h3>Waiting Time (Pie Chart)</h3>
+            <canvas id="wtPieChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Turnaround Time (Pie Chart)</h3>
+            <canvas id="tatPieChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Waiting Time (Bar Chart)</h3>
+            <canvas id="wtBarChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Turnaround Time (Bar Chart)</h3>
+            <canvas id="tatBarChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Performance Metrics (Bar Chart)</h3>
+            <canvas id="performanceBarChart"></canvas>
+        </div>
+    </div>
+
+    
+
+    <script src="script.js"></script>
+    <script src="waterfall.js"></script>
+</body>
+</html>

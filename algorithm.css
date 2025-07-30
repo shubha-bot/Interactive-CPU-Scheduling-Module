@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.algorithm {
+    margin-bottom: 30px;
+}
+
+.algorithm h2 {
+    color: #333;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.algorithm h2:hover {
+    color: #007bff; /* Hover color matching the button */
+}
+
+.pros {
+    color: green;
+}
+
+.cons {
+    color: red;
+}
+
+.separator {
+    margin: 40px 0;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.navigation {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.navigation button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.navigation button:hover {
+    background-color: #0056b3;
+}
+
+.navigation a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}

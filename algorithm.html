@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CPU Scheduling Algorithms & Our Team</title>
+  <link rel="stylesheet" href="algorithm.css" />
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 20px;
+      background-image: url('https://marketplace.canva.com/EAFw77ihYd8/1/0/800w/canva-beige-abstract-shapes-desktop-wallpaper-2FSHEmJo6ZQ.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center center;
+      display: flex;
+    }
+
+    h1, h2, h4 {
+      text-align: center;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .algorithm {
+      font-family: 'fangsong', serif;
+      font-size: 1.3em;
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #edf5f5;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+    }
+
+    .algorithm:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .algorithm h2 {
+      color: #2c3e50;
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    .pros {
+      color: #2e7d32;
+    }
+
+    .cons {
+      color: #c62828;
+    }
+
+    .separator {
+      border-top: 2px solid #bbb;
+      margin: 20px 0;
+    }
+
+    .navigation {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .navigation button {
+      padding: 10px 25px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navigation button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .photo-frame-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f5f5f5;
+    }
+
+    .member-frame {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .member-frame img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .group-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .group-name {
+      font-style: italic;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+
+    .group-leader {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CPU Scheduling Algorithms</h1>
+
+    <section class="algorithm">
+      <h2>First-Come, First-Served (FCFS)</h2>
+      <p>
+        FCFS is the simplest CPU scheduling algorithm. Processes are executed
+        in the order they arrive in the ready queue. It's non-preemptive,
+        meaning once a process starts, it runs until completion.
+      </p>
+      <p class="pros"><strong>Pros:</strong> Simple to implement, fair in terms of arrival order.</p>
+      <p class="cons"><strong>Cons:</strong> Can lead to the convoy effect where short processes behind a long process experience long waiting times.</p>
+    </section>
+
+    <section class="algorithm">
+      <h2>Shortest Job First (SJF)</h2>
+      <p>
+        SJF schedules the process with the smallest burst time next. It's
+        non-preemptive, meaning once a process starts, it runs until
+        completion.
+      </p>
+      <p class="pros"><strong>Pros:</strong> Minimizes average waiting time and turnaround time.</p>
+      <p class="cons"><strong>Cons:</strong> May lead to starvation of longer processes.</p>
+    </section>
+
+    <section class="algorithm">
+      <h2>Shortest Remaining Time First (SRTF)</h2>
+      <p>
+        SRTF is the preemptive version of SJF. The CPU is given to the
+        process with the shortest remaining burst time at every scheduling
+        decision point.
+      </p>
+      <p class="pros"><strong>Pros:</strong> Can significantly reduce average waiting time.</p>
+      <p class="cons"><strong>Cons:</strong> Higher complexity and risk of starvation.</p>
+    </section>
+
+    <section class="algorithm">
+      <h2>Round Robin (RR)</h2>
+      <p>
+        RR gives each process a fixed time slice (quantum). It’s preemptive
+        and ensures fairness among processes.
+      </p>
+      <p class="pros"><strong>Pros:</strong> Fair allocation, prevents starvation.</p>
+      <p class="cons"><strong>Cons:</strong> Too small time quantum increases context switching overhead.</p>
+    </section>
+
+    <div class="navigation">
+      <button onclick="goToSimulator()">Proceed to CPU Simulator</button>
+    </div>
+
+    <hr class="separator" />
+
+    <h4>Our Team</h4>
+    <div class="group-info">
+      <div class="group-name"><em>Future Forge</em></div>
+    </div>
+
+    <div class="photo-frame-container">
+      <div class="member-frame">
+        <img src="shubhamm.jpg" alt="Shubham Raj" />
+        <div><strong>Shubham Raj</strong> </div>
+        <div>(group leader)</div>
+        <div>University Id: 231512775</div>
+      </div>
+      <div class="member-frame">
+        <img src="simran.jpg" alt="Simran Negi" />
+        <div><strong>Simran Negi</strong></div>
+        <div>University Id:23152480</div>
+      </div>
+      <div class="member-frame">
+        <img src="yash.jpg" alt="Yash Garg" />
+        <div><strong>Yash Garg</strong></div>
+        <div>University Id: 2103863</div>
+      </div>
+      <div class="member-frame">
+        <img src="shreya.jpg" alt="Sherya Ojha" />
+        <div><strong>Sherya Ojha</strong></div>
+        <div>University Id: 23152199</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToSimulator() {
+      window.location.href = "simulator.html";
+    }
+  </script>
+</body>
+</html>

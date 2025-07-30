@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CPU Scheduling Solution</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e6e6e6;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    #metrics {
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .calc-section {
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .calc-section p {
+      margin: 5px 0;
+    }
+
+    canvas {
+      margin-top: 10px;
+      max-width: 400px;
+      max-height: 200px;
+    }
+
+    strong {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Step-by-Step Solution Breakdown</h1>
+
+  <table id="solutionTable">
+    <thead>
+      <tr>
+        <th>Process</th>
+        <th>Arrival Time</th>
+        <th>Burst Time</th>
+        <th>Start Time</th>
+        <th>Completion Time</th>
+        <th>Turnaround Time</th>
+        <th>Waiting Time</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="metrics"></div>
+
+  <script>
+    window.onload = function () {
+      const data = JSON.parse(localStorage.getItem("schedulingResults"));
+      const tableBody = document.querySelector("#solutionTable tbody");
+      const metricsDiv = document.getElementById("metrics");
+
+      if (!data || data.length === 0) {
+        tableBody.innerHTML =
+          "<tr><td colspan='8'>No data found. Please run the simulator first.</td></tr>";
+        return;
+      }
+
+      let totalBurst = 0, totalTAT = 0, totalWT = 0;
+      let burstDetails = "", tatDetails = "", wtDetails = "";
+      const startTime = data[0].start;
+      const endTime = data[data.length - 1].completion;
+
+      data.forEach((p, index) => {
+        const tat = p.completion - p.arrival;
+        const wt = tat - p.burst;
+        const isValid = tat === p.tat && wt === p.wt ? "✅" : "❌";
+
+        totalBurst += p.burst;
+        totalTAT += tat;
+        totalWT += wt;
+
+        burstDetails += `${p.burst}` + (index < data.length - 1 ? " + " : "");
+        tatDetails += `${tat}` + (index < data.length - 1 ? " + " : "");
+        wtDetails += `${wt}` + (index < data.length - 1 ? " + " : "");
+
+        const row = `<tr>
+            <td>P${p.id}</td>
+            <td>${p.arrival}</td>
+            <td>${p.burst}</td>
+            <td>${p.start}</td>
+            <td>${p.completion}</td>
+            <td>${tat}</td>
+            <td>${wt}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+      });
+
+      const n = data.length;
+      const avgTAT = (totalTAT / n).toFixed(2);
+      const avgWT = (totalWT / n).toFixed(2);
+      const cpuUtil = ((totalBurst / (endTime - startTime)) * 100).toFixed(2);
+      const throughput = (n / (endTime - data[0].arrival)).toFixed(2);
+
+      metricsDiv.innerHTML = `
+        <h2>Detailed Performance Metrics</h2>
+
+        <div class="calc-section">
+          <h3>1. Total Burst Time</h3>
+          <p><strong>Burst Times:</strong> ${burstDetails}</p>
+          <p><strong>Total Burst Time =</strong> ${burstDetails} = <strong>${totalBurst}</strong></p>
+          <canvas id="burstChart" height="180"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>2. Total Turnaround Time (TAT)</h3>
+          <p><strong>Turnaround Times:</strong> ${tatDetails}</p>
+          <p><strong>Total TAT =</strong> ${tatDetails} = <strong>${totalTAT}</strong></p>
+          <canvas id="tatChart" height="180"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>3. Total Waiting Time (WT)</h3>
+          <p><strong>Waiting Times:</strong> ${wtDetails}</p>
+          <p><strong>Total WT =</strong> ${wtDetails} = <strong>${totalWT}</strong></p>
+          <canvas id="wtChart" height="180"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>4. Average Turnaround Time (TAT)</h3>
+          <p><strong>Calculation:</strong> ${totalTAT} / ${n} = <strong>${avgTAT}</strong></p>
+          <canvas id="avgTatChart" height="160"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>5. Average Waiting Time (WT)</h3>
+          <p><strong>Calculation:</strong> ${totalWT} / ${n} = <strong>${avgWT}</strong></p>
+          <canvas id="avgWtChart" height="160"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>6. CPU Utilization</h3>
+          <p><strong>Calculation:</strong> (${totalBurst} / ${endTime - startTime}) × 100 = <strong>${cpuUtil}%</strong></p>
+          <canvas id="cpuChart" height="160"></canvas>
+        </div>
+
+        <div class="calc-section">
+          <h3>7. Throughput</h3>
+          <p><strong>Calculation:</strong> ${n} / ${endTime - data[0].arrival} = <strong>${throughput} processes/unit time</strong></p>
+          <canvas id="throughputChart" height="160"></canvas>
+        </div>
+      `;
+
+      const commonOptions = {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true }
+        },
+        scales: {
+          x: {
+            ticks: { font: { size: 10 } },
+            grid: { display: false }
+          },
+          y: {
+            ticks: { font: { size: 10 } },
+            beginAtZero: true,
+            grid: { color: "#eee" }
+          }
+        }
+      };
+
+      const labels = data.map(p => "P" + p.id);
+
+      new Chart(document.getElementById("burstChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Burst Time",
+            data: data.map(p => p.burst),
+            backgroundColor: "#3498db",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("tatChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Turnaround Time",
+            data: data.map(p => p.completion - p.arrival),
+            backgroundColor: "#2ecc71",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("wtChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Waiting Time",
+            data: data.map(p => (p.completion - p.arrival - p.burst)),
+            backgroundColor: "#f39c12",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("avgTatChart"), {
+        type: "bar",
+        data: {
+          labels: ["Avg TAT"],
+          datasets: [{
+            label: "Avg TAT",
+            data: [avgTAT],
+            backgroundColor: "#27ae60",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("avgWtChart"), {
+        type: "bar",
+        data: {
+          labels: ["Avg WT"],
+          datasets: [{
+            label: "Avg WT",
+            data: [avgWT],
+            backgroundColor: "#d35400",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("cpuChart"), {
+        type: "bar",
+        data: {
+          labels: ["CPU Utilization"],
+          datasets: [{
+            label: "Utilization (%)",
+            data: [cpuUtil],
+            backgroundColor: "#8e44ad",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+
+      new Chart(document.getElementById("throughputChart"), {
+        type: "bar",
+        data: {
+          labels: ["Throughput"],
+          datasets: [{
+            label: "Processes/unit time",
+            data: [throughput],
+            backgroundColor: "#16a085",
+            borderRadius: 5
+          }]
+        },
+        options: commonOptions
+      });
+    };
+  </script>
+</body>
+</html>

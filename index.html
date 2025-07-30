@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waterfall Model Visualization</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .waterfall-container {
+      margin: 20px auto;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 1000px;
+      text-align: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background-color: #0056b3;
+    }
+
+    .waterfall-steps {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .waterfall-steps::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      right: 5%;
+      height: 2px;
+      background-color: #007bff;
+      transform: translateY(-50%);
+      z-index: -1;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+      width: 80px;
+      height: 80px;
+      justify-content: center;
+      position: relative;
+      margin: 10px;
+      flex: 1 1 14%;
+    }
+
+    .step span {
+      font-size: 1.5em;
+      color: #007bff;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .step p {
+      font-size: 0.9em;
+      color: #333;
+      margin: 0;
+    }
+
+    .step.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .step.active span {
+      color: white;
+    }
+
+    .step.completed::before {
+      content: '\2713';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #28a745;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .waterfall-steps {
+        flex-direction: column;
+      }
+
+      .waterfall-steps::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="waterfall-container">
+    <h2>Waterfall Model Phases</h2>
+    <div class="controls">
+      <button onclick="startSlowProgress()">Slow</button>
+      <button onclick="startFastProgress()">Fast</button>
+    </div>
+    <ul class="waterfall-steps">
+      <li id="requirements" class="step active"><span>1</span><p>Requirements</p></li>
+      <li id="design" class="step"><span>2</span><p>Design</p></li>
+      <li id="implementation" class="step"><span>3</span><p>Implementation</p></li>
+      <li id="testing" class="step"><span>4</span><p>Testing</p></li>
+      <li id="deployment" class="step"><span>5</span><p>Deployment</p></li>
+      <li id="maintenance" class="step"><span>6</span><p>Maintenance</p></li>
+    </ul>
+  </div>
+
+  <script>
+    let currentWaterfallStep = 'requirements';
+    const steps = ['requirements', 'design', 'implementation', 'testing', 'deployment', 'maintenance'];
+    let interval = null;
+
+    function advanceWaterfall() {
+      const currentIndex = steps.indexOf(currentWaterfallStep);
+
+      if (currentIndex < steps.length) {
+        const currentStepElement = document.getElementById(currentWaterfallStep);
+        if (currentStepElement) {
+          currentStepElement.classList.remove('active');
+          currentStepElement.classList.add('completed');
+        }
+
+        if (currentIndex + 1 < steps.length) {
+          currentWaterfallStep = steps[currentIndex + 1];
+          const nextStepElement = document.getElementById(currentWaterfallStep);
+          if (nextStepElement) {
+            nextStepElement.classList.add('active');
+          }
+        } else {
+          if (interval) clearInterval(interval);
+          alert("Waterfall model visualization completed!");
+        }
+      }
+    }
+
+    function startSlowProgress() {
+      resetWaterfall();
+      interval = setInterval(advanceWaterfall, 2000);
+    }
+
+    function startFastProgress() {
+      resetWaterfall();
+      interval = setInterval(advanceWaterfall, 500);
+    }
+
+    function resetWaterfall() {
+      if (interval) clearInterval(interval);
+      currentWaterfallStep = 'requirements';
+      steps.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('completed');
+          el.classList.remove('active');
+        }
+      });
+      const first = document.getElementById('requirements');
+      if (first) {
+        first.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
