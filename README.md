@@ -11,7 +11,7 @@ The project is titled **"Interactive CPU Scheduling Module using Waterfall Model
 **Group Leader:** Shubham Raj (Myself)  
 **Team Members:**
 - Yash Garg  
-- Simran Negin  
+- Simran Negi  
 - Shreya Ojha
 
 ---
