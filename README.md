@@ -14,4 +14,4 @@ This is a mini project developed using HTML, CSS, and JavaScript. It simulates a
 - JavaScript
 
 ## Author
-Shubham Raj (BCA 3rd Year Student)
+Shubham Raj (BCA 2nd Year Student)
